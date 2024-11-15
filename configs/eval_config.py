@@ -8,7 +8,7 @@ model = dict(
         ),
         image_encoder=dict(
             type="VideoAutoencoderKL",
-            from_pretrained="/data1/wenyoupeng/pretrained_models/sd2/sd-vae-ft-ema/",
+            from_pretrained="./pretrained_models/sd2/sd-vae-ft-ema/",
             delete_decoder=True,
         ),
         sora=dict(
@@ -73,10 +73,10 @@ training = dict(
     weight_decay=0.0001,
     num_warmup_epochs=1,
     gradient_accumulation_steps=4,
-    load_dir='./pretrained_models/vidmanckpt',
-    save_path='./pretrained_models/vidmanckpt',
+    load_dir='./pretrained_models/ckpt',
+    save_path='./pretrained_models/ckpt',
     dtype='fp32',
-    load_epoch=19,
+    model_name="latest.pth",
     bs_per_gpu=14,
     save_epochs=1,
 )

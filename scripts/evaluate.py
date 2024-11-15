@@ -156,11 +156,12 @@ def main():
                           act_dim=cfg['common']['act_dim'],
                           chunk_size=cfg['common']['chunk_size'])
     #TODO load model
-    save_model = os.path.join(cfg['training']['save_path'], 'policy_{}.pth'.format(cfg['training']['load_epoch']))
-    if os.path.isfile(save_model):
-        missing_keys, unexpected_keys = policy.net.load_state_dict(torch.load(save_model), strict=False)
-        acc.print('load', save_model, 'missing keys', missing_keys, "unexpected_keys", unexpected_keys)
-        ema = os.path.join(cfg['training']['save_path'], 'ema_{}.pth'.format(cfg['training']['load_epoch']))
+
+    model_file=os.path.join(cfg['training']['load_dir'], cfg['training']['model_name'])
+    if os.path.isfile(model_file):
+        missing_keys, unexpected_keys = policy.net.load_state_dict(torch.load(model_file), strict=False)
+        acc.print('load', model_file, 'missing keys', missing_keys, "unexpected_keys", unexpected_keys)
+        ema = model_file.replace(".pth","_ema.pth")
         missing_keys, unexpected_keys = policy.ema_net.load_state_dict(torch.load(ema), strict=False)
         acc.print('load', ema, 'missing keys', missing_keys, "unexpected_keys", unexpected_keys)
     policy.net, policy.ema_net = acc.prepare(
